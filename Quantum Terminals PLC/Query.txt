@@ -1,0 +1,56 @@
+Retrieve the names of all companies stored in the database.
+    SELECT "Company_Name"
+    FROM "Company";
+
+
+List the products stored in the database along with their respective types.
+    SELECT "Product_Name", "Product_ID"
+    FROM "Product";
+
+
+Find the total number of terminals in the database.
+    SELECT COUNT(*) AS "Total_Terminals"
+    FROM "Terminal";
+
+
+Show the capacity of all storage tanks along with their corresponding terminal names.
+    SELECT t."Terminal_Name", s."Capacity"
+    FROM "Terminal" t
+    JOIN "StorageTank" s ON t."Terminal_ID" = s."Terminal_ID";
+
+
+Get the total quantity of each product stored in the database.
+
+Find the companies that have placed orders in the last month.
+    SELECT DISTINCT c."Company_Name"
+    FROM "Order" o
+    JOIN "Company" c ON o."Company_ID" = c."Company_ID"
+    WHERE o."Order_Date" >= CURRENT_DATE - INTERVAL '1 month';
+
+
+Show the total number of orders placed by each company.
+    SELECT c."Company_Name", COUNT(o."Order_ID") AS "Total_Orders"
+    FROM "Order" o
+    JOIN "Company" c ON o."Company_ID" = c."Company_ID"
+    GROUP BY c."Company_Name";
+
+
+Retrieve the average capacity of storage tanks for each terminal.
+    SELECT t."Terminal_Name", AVG(s."Capacity") AS "Average_Capacity"
+    FROM "Terminal" t
+    JOIN "StorageTank" s ON t."Terminal_ID" = s."Terminal_ID"
+    GROUP BY t."Terminal_Name";
+
+
+List the companies along with the total quantity of products they have ordered.
+    SELECT c."Company_Name", SUM(o."Quantity") AS "Total_Quantity"
+    FROM "Order" o
+    JOIN "Company" c ON o."Company_ID" = c."Company_ID"
+    GROUP BY c."Company_Name";
+
+
+Find the terminals that have storage tanks with a capacity exceeding 5000 units.
+    SELECT t."Terminal_Name", s."Capacity"
+    FROM "Terminal" t
+    JOIN "StorageTank" s ON t."Terminal_ID" = s."Terminal_ID"
+    WHERE s."Capacity" > 5000;
